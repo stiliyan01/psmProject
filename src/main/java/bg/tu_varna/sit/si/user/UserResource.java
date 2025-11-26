@@ -1,6 +1,7 @@
 package bg.tu_varna.sit.si.user;
 
 
+import bg.tu_varna.sit.si.user.dto.UserListDTO;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.transaction.UserTransaction;
@@ -10,6 +11,8 @@ import jakarta.ws.rs.core.Response;
 
 import java.util.List;
 
+import static java.util.stream.Collectors.toList;
+
 @Path("/users")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
@@ -17,8 +20,8 @@ import java.util.List;
 public class UserResource {
 
     @GET
-    public List<UserEntity> getUsers() {
-        return UserEntity.listAll();
+    public List<UserListDTO> getUsers() {
+        return UserEntity.<UserEntity>listAll().stream().map(UserListDTO::new).toList();
     }
 
     @GET
