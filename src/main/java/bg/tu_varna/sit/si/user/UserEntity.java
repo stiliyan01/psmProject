@@ -40,7 +40,7 @@ public class UserEntity extends PanacheEntity {
     @Column(name = "is_active", nullable = false)
     public boolean isActive = true;
 
-    @Column(name = "profile_image_id", nullable = false)
+    @Column(name = "profile_image_id", nullable = true)
     public String profileImageId;
 
     @Column(name = "created_at")
