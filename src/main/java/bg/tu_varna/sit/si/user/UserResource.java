@@ -1,6 +1,7 @@
 package bg.tu_varna.sit.si.user;
 
 
+import bg.tu_varna.sit.si.user.dto.UserDetailDTO;
 import bg.tu_varna.sit.si.user.dto.UserListDTO;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -33,6 +34,7 @@ public class UserResource {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
 
-        return Response.ok(user).build();
+
+        return Response.ok(new UserDetailDTO(user)).build();
     }
 }

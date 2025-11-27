@@ -25,7 +25,7 @@ public class UserEntity extends PanacheEntity {
     public int age;
 
     @Column(name = "egn", nullable = false, unique = true, length = 10)
-    public String egn;
+    private String egn;
 
     @Column(name = "email", nullable = false, unique = true)
     public String email;
@@ -49,6 +49,13 @@ public class UserEntity extends PanacheEntity {
     @Column(name = "updated_at")
     public LocalDateTime updatedAt;
 
+
+    public String getEgn() {
+        return egn;
+    }
+    protected void setEgn(String egn) {
+        this.egn = egn;
+    }
 
     @PrePersist
     public void prePersist() {
