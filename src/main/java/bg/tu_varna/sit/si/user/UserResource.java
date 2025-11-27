@@ -1,6 +1,7 @@
 package bg.tu_varna.sit.si.user;
 
 
+import bg.tu_varna.sit.si.user.dto.UserCreateDTO;
 import bg.tu_varna.sit.si.user.dto.UserDetailDTO;
 import bg.tu_varna.sit.si.user.dto.UserListDTO;
 import jakarta.inject.Inject;
@@ -37,4 +38,33 @@ public class UserResource {
 
         return Response.ok(new UserDetailDTO(user)).build();
     }
+
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response createUser(UserCreateDTO dto) {
+
+        UserEntity user = new UserEntity();
+
+        user.externalUserId = dto.externalUserId;
+        user.firstName = dto.firstName;
+        user.middleName = dto.middleName;
+        user.lastName = dto.lastName;
+        user.age = dto.age;
+        user.email = dto.email;
+        user.address = dto.address;
+        user.cityId = dto.cityId;
+        user.profileImageId = dto.profileImageId;
+
+
+        user.setEgn(dto.egn);
+
+        user.persist();
+
+        return Response.status(Response.Status.CREATED)
+                .entity(new UserDetailDTO(user))
+                .build();
+    }
+
+
 }
