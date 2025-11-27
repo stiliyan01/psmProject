@@ -4,6 +4,7 @@ package bg.tu_varna.sit.si.user;
 import bg.tu_varna.sit.si.user.dto.UserCreateDTO;
 import bg.tu_varna.sit.si.user.dto.UserDetailDTO;
 import bg.tu_varna.sit.si.user.dto.UserListDTO;
+import bg.tu_varna.sit.si.user.dto.UserUpdateDTO;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.transaction.UserTransaction;
@@ -66,5 +67,30 @@ public class UserResource {
                 .build();
     }
 
+    @PUT
+    @Path("/{externalId}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Transactional
+    public Response updateUser(@PathParam("externalId") String externalId, UserUpdateDTO dto) {
 
+        UserEntity user = UserEntity.find("externalUserId", externalId).firstResult();
+
+        if (user == null) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+
+        user.firstName = dto.firstName;
+        user.middleName = dto.middleName;
+        user.lastName = dto.lastName;
+        user.age = dto.age;
+        user.email = dto.email;
+        user.address = dto.address;
+        user.cityId = dto.cityId;
+        user.profileImageId = dto.profileImageId;
+        user.isActive = dto.isActive;
+
+
+        return Response.ok(new UserDetailDTO(user)).build();
+    }
 }
