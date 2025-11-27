@@ -93,4 +93,20 @@ public class UserResource {
 
         return Response.ok(new UserDetailDTO(user)).build();
     }
+
+    @DELETE
+    @Path("/{externalId}")
+    @Transactional
+    public Response deleteUser(@PathParam("externalId") String externalId) {
+
+        UserEntity user = UserEntity.find("externalUserId", externalId).firstResult();
+
+        if (user == null) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+
+        user.delete();
+
+        return Response.status(Response.Status.NO_CONTENT).build(); // 204
+    }
 }
