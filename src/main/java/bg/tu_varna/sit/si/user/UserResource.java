@@ -8,6 +8,7 @@ import bg.tu_varna.sit.si.user.dto.UserUpdateDTO;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.transaction.UserTransaction;
+import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
@@ -41,10 +42,8 @@ public class UserResource {
     }
 
     @POST
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
     @Transactional
-    public Response createUser(UserCreateDTO dto) {
+    public Response createUser(@Valid UserCreateDTO dto) {
 
         UserEntity user = new UserEntity();
 
@@ -57,8 +56,6 @@ public class UserResource {
         user.address = dto.address;
         user.cityId = dto.cityId;
         user.profileImageId = dto.profileImageId;
-
-
         user.setEgn(dto.egn);
 
         user.persist();
@@ -70,10 +67,9 @@ public class UserResource {
 
     @PUT
     @Path("/{externalId}")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
     @Transactional
-    public Response updateUser(@PathParam("externalId") String externalId, UserUpdateDTO dto) {
+    public Response updateUser(@PathParam("externalId") String externalId,
+                               @Valid UserUpdateDTO dto) {
 
         UserEntity user = UserEntity.find("externalUserId", externalId).firstResult();
 
@@ -90,7 +86,6 @@ public class UserResource {
         user.cityId = dto.cityId;
         user.profileImageId = dto.profileImageId;
         user.isActive = dto.isActive;
-
 
         return Response.ok(new UserDetailDTO(user)).build();
     }
